@@ -1,11 +1,39 @@
-def init(self, name): self.name = name self.articles = []
+from article import Article
+from magazine import Magazine
 
-def get_name(self): return self.name
 
-def add_article(self, article): self.articles.append(article)
+class Author:
+    def __init__(self, name: str):
+        if not isinstance(name, str) or len(name) == 0:
+            raise ValueError("Author name must be a non-empty string")
+        self.name = name
+        self.articles = []
 
-def get_articles(self): return self.articles
+    @property
+    def name(self):
+        return self._name
 
-def get_magazines(self): magazines = set() for article in self.articles: magazines.add(article.magazine) return list(magazines)
+    @name.setter
+    def name(self, value: str):
+        if not isinstance(value, str) or len(value) == 0:
+            raise ValueError("Author name must be a non-empty string")
+        self._name = value
 
-def get_topic_areas(self): topics = set() for article in self.articles: topics.add(article.topic) return list(topics)
+    def add_article(self, article: 'Article'):
+        self.articles.append(article)
+
+    def articles_written(self) -> list['Article']:
+        return self.articles
+
+    def magazines_contributed_to(self) -> list['Magazine']:
+        magazines = set()
+        for article in self.articles:
+            magazines.add(article.magazine)
+        return list(magazines)
+
+    def topic_areas(self) -> list[str]:
+        categories = set()
+        for article in self.articles:
+            categories.add(article.magazine.category)
+        return list(categories)
+

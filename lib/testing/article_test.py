@@ -1,6 +1,6 @@
-from classes.many_to_many import Article
-from classes.many_to_many import Magazine
-from classes.many_to_many import Author
+from article import Article
+from author import Author
+from magazine import Magazine
 
 
 class TestArticle:
@@ -10,8 +10,8 @@ class TestArticle:
         """Article is initialized with a title"""
         author = Author("Carry Bradshaw")
         magazine = Magazine("Vogue", "Fashion")
-        article_1 = Article(Author, magazine, "How to wear a tutu with style")
-        article_2 = Article(Author, magazine, "Dating life in NYC")
+        article_1 = Article(author, magazine, "How to wear a tutu with style")
+        article_2 = Article(author, magazine, "Dating life in NYC")
 
         assert article_1.title == "How to wear a tutu with style"
         assert article_2.title == "Dating life in NYC"
@@ -22,15 +22,13 @@ class TestArticle:
         magazine = Magazine("Vogue", "Fashion")
         article_1 = Article(author, magazine, "How to wear a tutu with style")
 
-        # comment out the next two lines if using Exceptions
-        article_1.title = 500
-        assert article_1.title == "How to wear a tutu with style"
+        try:
+            article_1.title = 500
+            assert False, "Expected AttributeError"
+        except AttributeError:
+            pass
         
         assert isinstance(article_1.title, str)
-
-        # uncomment the next two lines if using Exceptions
-        # with pytest.raises(Exception):
-        #     Article(author, magazine, 500)
 
     def test_title_is_valid(self):
         """title is between 5 and 50 characters inclusive"""
@@ -40,13 +38,17 @@ class TestArticle:
 
         assert 5 <= len(article_1.title) <= 50
 
-        # uncomment the next two lines if using Exceptions
-        # with pytest.raises(Exception):
-        #     Article(author, magazine, "Test")
+        try:
+            Article(author, magazine, "Test")
+            assert False, "Expected ValueError"
+        except ValueError:
+            pass
 
-        # uncomment the next two lines if using Exceptions
-        # with pytest.raises(Exception):
-        #     Article(author, magazine, "How to wear a tutu with style and walk confidently down the street")
+        try:
+            Article(author, magazine, "How to wear a tutu with style and walk confidently down the street")
+            assert False, "Expected ValueError"
+        except ValueError:
+            pass
 
     def test_has_an_author(self):
         """article has an author"""

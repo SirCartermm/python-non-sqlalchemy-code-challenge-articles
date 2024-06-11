@@ -1,5 +1,3 @@
-import pytest
-
 from classes.many_to_many import Article
 from classes.many_to_many import Magazine
 from classes.many_to_many import Author
@@ -12,8 +10,8 @@ class TestArticle:
         """Article is initialized with a title"""
         author = Author("Carry Bradshaw")
         magazine = Magazine("Vogue", "Fashion")
-        article_1 = Article(author, magazine, "How to wear a tutu with style")
-        article_2 = Article(author, magazine, "Dating life in NYC")
+        article_1 = Article(Author, magazine, "How to wear a tutu with style")
+        article_2 = Article(Author, magazine, "Dating life in NYC")
 
         assert article_1.title == "How to wear a tutu with style"
         assert article_2.title == "Dating life in NYC"
